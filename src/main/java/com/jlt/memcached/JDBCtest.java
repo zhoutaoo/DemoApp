@@ -1,3 +1,4 @@
+/*
 package com.jlt.memcached;
 
 import java.sql.Connection;
@@ -16,59 +17,59 @@ public class JDBCtest {
 
 	protected static SockIOPool sUpool = null;
 	static {
-		// ¿ÉÊ¹ÓÃµÄmemcached ·þÎñÁÐ±í
+		// å¯ä½¿ç”¨çš„memcached æœåŠ¡åˆ—è¡¨
 		String[] servers = { "127.0.0.1:11211" };
 
-		// ·þÎñÆ÷È¨ÖØ,ÔÚ·þÎñÆ÷ÐÔÄÜ²îÒì²»´óµÄÇé¿öÏÂÒ²¿ÉÒÔÊ¡ÂÔ
+		// æœåŠ¡å™¨æƒé‡,åœ¨æœåŠ¡å™¨æ€§èƒ½å·®å¼‚ä¸å¤§çš„æƒ…å†µä¸‹ä¹Ÿå¯ä»¥çœç•¥
 		Integer[] weights = { new Integer(3) };
 
-		// »ñÈ¡Á¬½Ó³ØµÄµ¥Ì¬·½·¨£¬Õâ¸ö·½·¨ÓÐÒ»¸öÖØÔØµÄ·½·¨getInstance(String poolname)ÓÃÓÚ´´½¨²»Í¬µÄÁ¬½Ó³Ø
+		// èŽ·å–è¿žæŽ¥æ± çš„å•æ€æ–¹æ³•ï¼Œè¿™ä¸ªæ–¹æ³•æœ‰ä¸€ä¸ªé‡è½½çš„æ–¹æ³•getInstance(String poolname)ç”¨äºŽåˆ›å»ºä¸åŒçš„è¿žæŽ¥æ± 
 		sUpool = SockIOPool.getInstance();
 
 		sUpool.setServers(servers);
 		sUpool.setWeights(weights);
 
-		// ÉèÖÃÁ¬½Ó³ØÎ¬»¤Ïß³ÌµÄË¯ÃßÊ±¼ä£¬µ¥Î»Ãë£»ÉèÖÃÎª0µÄ»°ÔòÎ¬»¤Ïß³Ì²»Æô¶¯
-		// Î¬»¤Ïß³ÌÍ¨¹ýlogÊä³ösocketÔËÐÐ×´¿ö£¬¼à²âÁ¬½ÓÊýÄ¿µÈ²ÎÊý
+		// è®¾ç½®è¿žæŽ¥æ± ç»´æŠ¤çº¿ç¨‹çš„ç¡çœ æ—¶é—´ï¼Œå•ä½ç§’ï¼›è®¾ç½®ä¸º0çš„è¯åˆ™ç»´æŠ¤çº¿ç¨‹ä¸å¯åŠ¨
+		// ç»´æŠ¤çº¿ç¨‹é€šè¿‡logè¾“å‡ºsocketè¿è¡ŒçŠ¶å†µï¼Œç›‘æµ‹è¿žæŽ¥æ•°ç›®ç­‰å‚æ•°
 		sUpool.setMaintSleep(30);
 
-		// ÊÇ·ñ¼¤»îTCPµÄNagleËã·¨£¬È±Ê¡Îªtrue£»NagleËã·¨Í¨¹ý¼õÉÙ±ØÐë·¢ËÍ°üµÄ¸öÊý£¨ºÏ²¢Ð¡°ü£©À´Ôö¼ÓÍøÂçÈí¼þÏµÍ³µÄÐ§ÂÊ£»
-		// Èç¹ûÓ¦ÓÃÒªÇó¼´Ê±ÐÔ¸ßÇÒËù´¦»·¾³ÖÐ´ø¿í³äÔ££¬Ôò½¨ÒéÉèÖÃÎªfalse;
+		// æ˜¯å¦æ¿€æ´»TCPçš„Nagleç®—æ³•ï¼Œç¼ºçœä¸ºtrueï¼›Nagleç®—æ³•é€šè¿‡å‡å°‘å¿…é¡»å‘é€åŒ…çš„ä¸ªæ•°ï¼ˆåˆå¹¶å°åŒ…ï¼‰æ¥å¢žåŠ ç½‘ç»œè½¯ä»¶ç³»ç»Ÿçš„æ•ˆçŽ‡ï¼›
+		// å¦‚æžœåº”ç”¨è¦æ±‚å³æ—¶æ€§é«˜ä¸”æ‰€å¤„çŽ¯å¢ƒä¸­å¸¦å®½å……è£•ï¼Œåˆ™å»ºè®®è®¾ç½®ä¸ºfalse;
 		sUpool.setNagle(false);
 
-		// Á¬½Ómemcache·þÎñµÄ³¬Ê±Ê±¼ä£¬µ¥Î»ºÁÃë
-		// ¾­²âÊÔ£¬serversÁÐ±íÖÐÈç¹û´æÔÚ²»ÄÜ±»Á¬½ÓµÄ¶àÌ¨server£¬ÆätimeoutÊÇ²¢·¢¼ÆËãµÄ£¬²»ÊÇÒ»Ì¨timeoutºóµÈµÚ¶þÌ¨timeoutÕâÑù£»¹Êseverlist³¤²»»á´øÀ´ÎÊÌâ£»
+		// è¿žæŽ¥memcacheæœåŠ¡çš„è¶…æ—¶æ—¶é—´ï¼Œå•ä½æ¯«ç§’
+		// ç»æµ‹è¯•ï¼Œserversåˆ—è¡¨ä¸­å¦‚æžœå­˜åœ¨ä¸èƒ½è¢«è¿žæŽ¥çš„å¤šå°serverï¼Œå…¶timeoutæ˜¯å¹¶å‘è®¡ç®—çš„ï¼Œä¸æ˜¯ä¸€å°timeoutåŽç­‰ç¬¬äºŒå°timeoutè¿™æ ·ï¼›æ•…severlisté•¿ä¸ä¼šå¸¦æ¥é—®é¢˜ï¼›
 		sUpool.setSocketConnectTO(100);
 
-		// Á¬½ÓÉÏmemcache·þÎñºó´¦ÀíµÄ³¬Ê±Ê±¼ä£¬µ¥Î»ºÁÃë
+		// è¿žæŽ¥ä¸ŠmemcacheæœåŠ¡åŽå¤„ç†çš„è¶…æ—¶æ—¶é—´ï¼Œå•ä½æ¯«ç§’
 		sUpool.setSocketTO(100);
 
-		// ÉèÖÃÃ¿¸ömemcache·þÎñµÄÁ¬½Ó³ØµÄ³õÊ¼Á¬½ÓÊý£¬×îÐ¡Á¬½ÓÊýºÍ×î´óÁ¬½ÓÊý£»
+		// è®¾ç½®æ¯ä¸ªmemcacheæœåŠ¡çš„è¿žæŽ¥æ± çš„åˆå§‹è¿žæŽ¥æ•°ï¼Œæœ€å°è¿žæŽ¥æ•°å’Œæœ€å¤§è¿žæŽ¥æ•°ï¼›
 		sUpool.setInitConn(1);
 		sUpool.setMinConn(1);
 		sUpool.setMaxConn(100);
 
-		// ÉèÖÃÁ¬½Ó³ØµÄ×î´ó¿ÕÏÐÊ±¼äºÍ·±Ã¦Ê±¼ä£¬µ¥Î»ºÁÃë
+		// è®¾ç½®è¿žæŽ¥æ± çš„æœ€å¤§ç©ºé—²æ—¶é—´å’Œç¹å¿™æ—¶é—´ï¼Œå•ä½æ¯«ç§’
 		// sUpool.setMaxIdle(1000);
 		// sUpool.setMaxBusyTime(1000);
 
 		sUpool.setHashingAlg(2);
-		// ÉèÖÃhashËã·¨¡£0-2²ÉÓÃhashËã·¨£¬²éÕÒcache·þÎñÊ¹ÓÃÓàÊý·½·¨£¬ÆäÖÐ2¼È¼æÈÝ±ðµÄ¿Í»§¶ËÇÒÐ§ÂÊ¸ß£»
-		// 3²éÕÒcache·þÎñÊ¹ÓÃconsistent·½·¨£¬ÔÚ´ó¹æÄ£¶¯Ì¬²¿Êðcache·þÎñÊ±ÓÐÓÃ£¬µ«»á½µµÍÄÚ´æµÄÀûÓÃÐ§ÂÊ£»
+		// è®¾ç½®hashç®—æ³•ã€‚0-2é‡‡ç”¨hashç®—æ³•ï¼ŒæŸ¥æ‰¾cacheæœåŠ¡ä½¿ç”¨ä½™æ•°æ–¹æ³•ï¼Œå…¶ä¸­2æ—¢å…¼å®¹åˆ«çš„å®¢æˆ·ç«¯ä¸”æ•ˆçŽ‡é«˜ï¼›
+		// 3æŸ¥æ‰¾cacheæœåŠ¡ä½¿ç”¨consistentæ–¹æ³•ï¼Œåœ¨å¤§è§„æ¨¡åŠ¨æ€éƒ¨ç½²cacheæœåŠ¡æ—¶æœ‰ç”¨ï¼Œä½†ä¼šé™ä½Žå†…å­˜çš„åˆ©ç”¨æ•ˆçŽ‡ï¼›
 
-		// µ±µ±Ç°socket²»¿ÉÓÃÊ±£¬³ÌÐò×Ô¶¯²éÕÒ¿ÉÓÃÁ¬½Ó²¢·µ»Ø£¬Ä¬ÈÏtrue£¬½¨Òé±£³ÖÄ¬ÈÏ
+		// å½“å½“å‰socketä¸å¯ç”¨æ—¶ï¼Œç¨‹åºè‡ªåŠ¨æŸ¥æ‰¾å¯ç”¨è¿žæŽ¥å¹¶è¿”å›žï¼Œé»˜è®¤trueï¼Œå»ºè®®ä¿æŒé»˜è®¤
 		sUpool.setFailover(true);
 
-		// µ±ÍøÂçÉÁ¶Ï»Ö¸´ºó£¬Õâ¸ösocketÁ¬½Ó»¹¿ÉÒÔ¼ÌÐøÊ¹ÓÃ£»
+		// å½“ç½‘ç»œé—ªæ–­æ¢å¤åŽï¼Œè¿™ä¸ªsocketè¿žæŽ¥è¿˜å¯ä»¥ç»§ç»­ä½¿ç”¨ï¼›
 		sUpool.setFailback(true);
 
-		// Ä¬ÈÏÎªfalse£¬ÉèÖÃÎªtrueÊ±ÔÚÃ¿´ÎÍ¨ÐÅÊ±¶¼Òª½øÐÐÁ¬½ÓÓÐÐ§ÐÔ²âÊÔ£¬Ôì³ÉÍ¨ÐÅ´ÎÊý±¶Ôö£¬¾­ÄÚÍøÊµ²â¼¸ºõ²»Ó°Ïì´¦ÀíËÙ¶È¡£ÔÚHAÒªÇó½Ï¸ßµÄ³¡ºÏ½¨ÒéÉèÖÃÎªtrue
+		// é»˜è®¤ä¸ºfalseï¼Œè®¾ç½®ä¸ºtrueæ—¶åœ¨æ¯æ¬¡é€šä¿¡æ—¶éƒ½è¦è¿›è¡Œè¿žæŽ¥æœ‰æ•ˆæ€§æµ‹è¯•ï¼Œé€ æˆé€šä¿¡æ¬¡æ•°å€å¢žï¼Œç»å†…ç½‘å®žæµ‹å‡ ä¹Žä¸å½±å“å¤„ç†é€Ÿåº¦ã€‚åœ¨HAè¦æ±‚è¾ƒé«˜çš„åœºåˆå»ºè®®è®¾ç½®ä¸ºtrue
 		sUpool.setAliveCheck(true);
 
 		//
 		sUpool.initialize();
 
-		// Ñ¹ËõÉèÖÃ£¬³¬¹ýÖ¸¶¨´óÐ¡(KB)µÄÊý¾Ý»á±»Ñ¹Ëõ£¬²»ÔÞ³ÉÊ¹ÓÃ
+		// åŽ‹ç¼©è®¾ç½®ï¼Œè¶…è¿‡æŒ‡å®šå¤§å°(KB)çš„æ•°æ®ä¼šè¢«åŽ‹ç¼©ï¼Œä¸èµžæˆä½¿ç”¨
 		// mcc.setCompressEnable(true);
 		// mcc.setCompressThreshold(64);
 
@@ -76,22 +77,22 @@ public class JDBCtest {
 
 	public static void main(String[] args) {
 
-		/*
-		 * cacheÊý¾ÝÐ´Èë²Ù×÷·½·¨
-		 * set·½·¨£º½«Êý¾Ý±£´æµ½cache·þÎñÆ÷£¬Èç¹û±£´æ³É¹¦Ôò·µ»Øtrue,Èç¹ûcache·þÎñÆ÷´æÔÚÍ¬ÑùµÄkey£¬ÔòÌæ»»Ö®
-		 * add·½·¨£º½«Êý¾ÝÌí¼Óµ½cache·þÎñÆ÷,Èç¹û±£´æ³É¹¦Ôò·µ»Øtrue£¬Èç¹ûcache·þÎñÆ÷´æÔÚÍ¬Ñùkey£¬Ôò·µ»Øfalse
-		 * replace·½·¨
-		 * £º½«Êý¾ÝÌæ»»cache·þÎñÆ÷ÖÐÏàÍ¬µÄkey,Èç¹û±£´æ³É¹¦Ôò·µ»Øtrue£¬Èç¹ûcache·þÎñÆ÷²»´æÔÚÍ¬Ñùkey£¬Ôò·µ»Øfalse
-		 */
+		 * cacheæ•°æ®å†™å…¥æ“ä½œæ–¹æ³•
+		 * setæ–¹æ³•ï¼šå°†æ•°æ®ä¿å­˜åˆ°cacheæœåŠ¡å™¨ï¼Œå¦‚æžœä¿å­˜æˆåŠŸåˆ™è¿”å›žtrue,å¦‚æžœcacheæœåŠ¡å™¨å­˜åœ¨åŒæ ·çš„keyï¼Œåˆ™æ›¿æ¢ä¹‹
+		 * addæ–¹æ³•ï¼šå°†æ•°æ®æ·»åŠ åˆ°cacheæœåŠ¡å™¨,å¦‚æžœä¿å­˜æˆåŠŸåˆ™è¿”å›žtrueï¼Œå¦‚æžœcacheæœåŠ¡å™¨å­˜åœ¨åŒæ ·keyï¼Œåˆ™è¿”å›žfalse
+		 * replaceæ–¹æ³•
+		 * ï¼šå°†æ•°æ®æ›¿æ¢cacheæœåŠ¡å™¨ä¸­ç›¸åŒçš„key,å¦‚æžœä¿å­˜æˆåŠŸåˆ™è¿”å›žtrueï¼Œå¦‚æžœcacheæœåŠ¡å™¨ä¸å­˜åœ¨åŒæ ·keyï¼Œåˆ™è¿”å›žfalse
+
+
 
 		// mcc.set("testKey", "This is a test String", new Date(new Date()
-		// .getTime() + 10000));// ¹ýÆÚÊ±¼äÎª10Ãë
+		// .getTime() + 10000));// è¿‡æœŸæ—¶é—´ä¸º10ç§’
 
-		/*
-		 * cacheÊý¾Ý¶ÁÈ¡²Ù×÷·½·¨
-		 * Ê¹ÓÃget·½·¨´Ócache·þÎñÆ÷»ñÈ¡Ò»¸öÊý¾Ý£¬Èç¹ûÐ´ÈëÊ±ÊÇÑ¹ËõµÄ»òÐòÁÐ»¯µÄ£¬ÔògetµÄ·µ»Ø»á×Ô¶¯½âÑ¹Ëõ¼°·´ÐòÁÐ»¯
-		 * Ê¹ÓÃgetMulti·½·¨´Ócache·þÎñÆ÷»ñÈ¡Ò»×éÊý¾Ý£¬ÊÇget·½·¨µÄÊý×éÊµÏÖ£¬ÊäÈë²ÎÊýkeysÊÇÒ»¸ökeyÊý×é£¬·µ»ØÊÇÒ»¸ömap
-		 */
+		 * cacheæ•°æ®è¯»å–æ“ä½œæ–¹æ³•
+		 * ä½¿ç”¨getæ–¹æ³•ä»ŽcacheæœåŠ¡å™¨èŽ·å–ä¸€ä¸ªæ•°æ®ï¼Œå¦‚æžœå†™å…¥æ—¶æ˜¯åŽ‹ç¼©çš„æˆ–åºåˆ—åŒ–çš„ï¼Œåˆ™getçš„è¿”å›žä¼šè‡ªåŠ¨è§£åŽ‹ç¼©åŠååºåˆ—åŒ–
+		 * ä½¿ç”¨getMultiæ–¹æ³•ä»ŽcacheæœåŠ¡å™¨èŽ·å–ä¸€ç»„æ•°æ®ï¼Œæ˜¯getæ–¹æ³•çš„æ•°ç»„å®žçŽ°ï¼Œè¾“å…¥å‚æ•°keysæ˜¯ä¸€ä¸ªkeyæ•°ç»„ï¼Œè¿”å›žæ˜¯ä¸€ä¸ªmap
+
+
 
 		// String bar = mcc.get("testKey").toString();
 
@@ -130,3 +131,4 @@ public class JDBCtest {
 		}
 	}
 }
+*/

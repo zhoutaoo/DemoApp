@@ -1,3 +1,4 @@
+/*
 package com.jlt.kettle;
 
 import org.pentaho.di.core.KettleEnvironment;
@@ -23,3 +24,4 @@ public class KettleDemo {
 	}
 
 }
+*/
