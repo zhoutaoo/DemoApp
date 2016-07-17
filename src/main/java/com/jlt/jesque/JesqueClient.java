@@ -11,7 +11,7 @@ public class JesqueClient {
 
     private final Config config;
     private final Client jesqueClientPool;
-    private static final int MS = 1000;
+    private static final int MS_UNIT = 1000;
 
     public JesqueClient() {
         config = new ConfigBuilder().build();
@@ -36,7 +36,7 @@ public class JesqueClient {
      * @param delay       延迟执行的时间,单位秒
      */
     public void addDelayedEnqueue(Queue.QUEUE_DELAY enqueueName, Job job, int delay) {
-        jesqueClientPool.delayedEnqueue(enqueueName.name(), job, System.currentTimeMillis() + delay * MS);
+        jesqueClientPool.delayedEnqueue(enqueueName.name(), job, System.currentTimeMillis() + delay * MS_UNIT);
     }
 
     /**
@@ -48,7 +48,7 @@ public class JesqueClient {
      * @param frequency   执行频率,单位秒
      */
     public void addRecurringEnqueue(Queue.QUEUE_RECURRING enqueueName, Job job, int delay, int frequency) {
-        jesqueClientPool.recurringEnqueue(enqueueName.name(), job, System.currentTimeMillis() + delay * MS, frequency * MS);
+        jesqueClientPool.recurringEnqueue(enqueueName.name(), job, System.currentTimeMillis() + delay * MS_UNIT, frequency * MS_UNIT);
     }
 
     /**
