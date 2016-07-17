@@ -1,11 +1,13 @@
 package com.jlt.jesque;
 
+import com.google.common.collect.Lists;
 import net.greghaines.jesque.Config;
 import net.greghaines.jesque.ConfigBuilder;
-import net.greghaines.jesque.Job;
-import net.greghaines.jesque.worker.*;
+import net.greghaines.jesque.worker.MapBasedJobFactory;
+import net.greghaines.jesque.worker.Worker;
+import net.greghaines.jesque.worker.WorkerImplFactory;
+import net.greghaines.jesque.worker.WorkerPool;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static net.greghaines.jesque.utils.JesqueUtils.entry;
@@ -19,54 +21,70 @@ public class JesqueWorker {
         config = new ConfigBuilder().build();
     }
 
-    public Worker createWork(String[] queueName, Class<?> worker) {
-        List<String> queues = Arrays.asList(queueName);
-        MapBasedJobFactory jobFactory = new MapBasedJobFactory(map(entry(worker.getName(), worker)));
-        return new WorkerImpl(config, queues, jobFactory);
+    private MapBasedJobFactory newMapBasedJobFactory(Class<?> worker) {
+        return new MapBasedJobFactory(map(entry(worker.getName(), worker)));
     }
 
-    public static void main(String[] args) {
-
-        JesqueWorker jesqueWorker = new JesqueWorker();
-        Worker worker = jesqueWorker.createWork(new String[]{"queueGo", "queueDelay", "queueRecurring"}, WorkerMan.class);
-
-        // Start a worker to run jobs from the queue
-        final Thread workerThread = new Thread(worker);
-
-        workerThread.start();
-
-        //job事件监听
-        worker.getWorkerEventEmitter().addListener(new WorkerListener() {
-            public void onEvent(WorkerEvent event, Worker worker, String queue, Job job,
-                                Object runner, Object result, Throwable t) {
-                System.out.println("---------触发事件-------" + Thread.currentThread().getName() + "|" + result + event.name() + "|" + worker.getName() + "|" + queue + "|" + job.getClassName());
-                if (runner instanceof WorkerMan) {
-                    WorkerMan runner1 = (WorkerMan) runner;
-                    System.out.println("---------work-------" + runner1.getNum());
-                }
-            }
-        }, WorkerEvent.JOB_SUCCESS);
-
-        try {
-            worker.join(0);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    /**
+     * 根据队列数组,获得队列名列表
+     *
+     * @param queues
+     * @return
+     */
+    private List<String> getQueues(Queues.Queue... queues) {
+        List<String> list = Lists.newArrayList();
+        for (Queues.Queue queue : queues) {
+            list.add(queue.name());
         }
+        return list;
+    }
 
-       /* // Wait a few secs then shutdown
-        try {
-            Thread.sleep(20000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+    /**
+     * 新建worker
+     *
+     * @param workerClass worker类型
+     * @param wokerNumber 新建worker的数量,多线程处理
+     * @param queueGos    队列名,可支持同时处理多个队列
+     * @return Worker
+     */
+    private Worker newWorker(Class<?> workerClass, int wokerNumber, Queues.Queue[] queueGos) {
+        WorkerImplFactory workerImplFactory = new WorkerImplFactory(config, getQueues(queueGos), newMapBasedJobFactory(workerClass));
+        return new WorkerPool(workerImplFactory, wokerNumber);
+    }
 
-        // Give ourselves time to process
-        worker.end(true);
+    /**
+     * 创建一个立即执行工作者worker
+     *
+     * @param workerClass worker类型
+     * @param wokerNumber 新建worker的数量,多线程处理
+     * @param queueGos    队列名,可支持同时处理多个队列
+     * @return Worker
+     */
+    public Worker createWork(Class<?> workerClass, int wokerNumber, Queues.Queue... queueGos) {
+        return newWorker(workerClass, wokerNumber, queueGos);
+    }
 
-       /* try {
-            workerThread.join();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+    /**
+     * 创建一个循环执行工作者worker
+     *
+     * @param workerClass     worker类型
+     * @param wokerNumber     新建worker的数量,多线程处理
+     * @param queueRecurrings 队列名,可支持同时处理多个循环队列
+     * @return worker
+     */
+    public Worker createRecurringWork(Class<?> workerClass, int wokerNumber, Queues.QUEUE_RECURRING... queueRecurrings) {
+        return newWorker(workerClass, wokerNumber, queueRecurrings);
+    }
+
+    /**
+     * 创建一个延时执行工作者worker
+     *
+     * @param workerClass worker类型
+     * @param wokerNumber 新建worker的数量,多线程处理
+     * @param queueDelays 队列名,可支持同时处理多个延迟队列
+     * @return worker
+     */
+    public Worker createDelayedWork(Class<?> workerClass, int wokerNumber, Queues.QUEUE_DELAY... queueDelays) {
+        return newWorker(workerClass, wokerNumber, queueDelays);
     }
 }

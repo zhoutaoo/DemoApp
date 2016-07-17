@@ -24,7 +24,7 @@ public class JesqueClient {
      * @param enqueueName 立即执行的队列名
      * @param job         Job,要执行工作
      */
-    public void addEnqueue(Queue.QUEUE_GO enqueueName, Job job) {
+    public void addEnqueue(Queues.QUEUE_GO enqueueName, Job job) {
         jesqueClientPool.enqueue(enqueueName.name(), job);
     }
 
@@ -35,7 +35,7 @@ public class JesqueClient {
      * @param job         Job,要执行工作
      * @param delay       延迟执行的时间,单位秒
      */
-    public void addDelayedEnqueue(Queue.QUEUE_DELAY enqueueName, Job job, int delay) {
+    public void addDelayedEnqueue(Queues.QUEUE_DELAY enqueueName, Job job, int delay) {
         jesqueClientPool.delayedEnqueue(enqueueName.name(), job, System.currentTimeMillis() + delay * MS_UNIT);
     }
 
@@ -47,7 +47,7 @@ public class JesqueClient {
      * @param delay       延迟循环的时间,单位秒
      * @param frequency   执行频率,单位秒
      */
-    public void addRecurringEnqueue(Queue.QUEUE_RECURRING enqueueName, Job job, int delay, int frequency) {
+    public void addRecurringEnqueue(Queues.QUEUE_RECURRING enqueueName, Job job, int delay, int frequency) {
         jesqueClientPool.recurringEnqueue(enqueueName.name(), job, System.currentTimeMillis() + delay * MS_UNIT, frequency * MS_UNIT);
     }
 
@@ -57,7 +57,7 @@ public class JesqueClient {
      * @param enqueueName 延迟队列名
      * @param job         Job,要取消执行工作
      */
-    public void removeEnqueue(Queue.QUEUE_DELAY enqueueName, Job job) {
+    public void removeEnqueue(Queues.QUEUE_DELAY enqueueName, Job job) {
         jesqueClientPool.removeDelayedEnqueue(enqueueName.name(), job);
     }
 
@@ -67,7 +67,7 @@ public class JesqueClient {
      * @param enqueueName 循环队列名
      * @param job         Job,要取消执行工作
      */
-    public void removeEnqueue(Queue.QUEUE_RECURRING enqueueName, Job job) {
+    public void removeEnqueue(Queues.QUEUE_RECURRING enqueueName, Job job) {
         jesqueClientPool.removeRecurringEnqueue(enqueueName.name(), job);
     }
 }
