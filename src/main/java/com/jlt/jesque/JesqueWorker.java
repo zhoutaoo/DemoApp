@@ -55,36 +55,36 @@ public class JesqueWorker {
     /**
      * 创建一个立即执行工作者worker
      *
-     * @param workerClass worker类型
-     * @param wokerNumber 新建worker的数量,多线程处理
-     * @param queueGos    队列名,可支持同时处理多个队列
+     * @param workerClass  worker类型
+     * @param workerNumber 新建worker的数量,多线程处理
+     * @param queueGos     队列名,可支持同时处理多个队列
      * @return Worker
      */
-    public Worker createWork(Class<?> workerClass, int wokerNumber, Queues.Queue... queueGos) {
-        return newWorker(workerClass, wokerNumber, queueGos);
+    public Worker createWork(Class<?> workerClass, int workerNumber, Queues.Queue... queueGos) {
+        return newWorker(workerClass, workerNumber, queueGos);
     }
 
     /**
      * 创建一个循环执行工作者worker
      *
      * @param workerClass     worker类型
-     * @param wokerNumber     新建worker的数量,多线程处理
+     * @param workerNumber    新建worker的数量,多线程处理
      * @param queueRecurrings 队列名,可支持同时处理多个循环队列
      * @return worker
      */
-    public Worker createRecurringWork(Class<?> workerClass, int wokerNumber, Queues.QUEUE_RECURRING... queueRecurrings) {
-        return newWorker(workerClass, wokerNumber, queueRecurrings);
+    public Worker createRecurringWork(Class<?> workerClass, int workerNumber, Queues.QUEUE_RECURRING... queueRecurrings) {
+        return newWorker(workerClass, workerNumber, queueRecurrings);
     }
 
     /**
      * 创建一个延时执行工作者worker
      *
-     * @param workerClass worker类型
-     * @param wokerNumber 新建worker的数量,多线程处理
-     * @param queueDelays 队列名,可支持同时处理多个延迟队列
+     * @param workerClass  worker类型
+     * @param workerNumber 新建worker的数量,多线程处理
+     * @param queueDelays  队列名,可支持同时处理多个延迟队列
      * @return worker
      */
-    public Worker createDelayedWork(Class<?> workerClass, int wokerNumber, Queues.QUEUE_DELAY... queueDelays) {
-        return newWorker(workerClass, wokerNumber, queueDelays);
+    public Worker createDelayedWork(Class<?> workerClass, int workerNumber, Queues.QUEUE_DELAY... queueDelays) {
+        return newWorker(workerClass, workerNumber, queueDelays);
     }
 }
