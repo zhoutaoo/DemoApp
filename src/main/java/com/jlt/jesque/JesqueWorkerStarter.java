@@ -1,41 +1,37 @@
 package com.jlt.jesque;
 
-import net.greghaines.jesque.Job;
 import net.greghaines.jesque.worker.Worker;
 import net.greghaines.jesque.worker.WorkerEvent;
 import net.greghaines.jesque.worker.WorkerListener;
 
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class JesqueWorkerStarter {
 
+    public static final int MILLIS = 0;
     private final JesqueWorker jesqueWorker = new JesqueWorker();
     private Worker worker;
 
-    JesqueWorkerStarter() {
-        worker = jesqueWorker.createWork(WorkerMan.class, 2, Queues.QUEUE_GO.QUEUE_GO1, Queues.QUEUE_GO.QUEUE_GO2);
+    JesqueWorkerStarter(Class<?> workerClass, int workerNumber, Queues.Queue... queueGos) {
+        worker = jesqueWorker.createWork(workerClass, workerNumber, queueGos);
+    }
+
+    public void start(EventListener workerListener) throws InterruptedException {
+        Executors.newCachedThreadPool().submit(worker);
+        bindingEvent(workerListener);
+        worker.join(MILLIS);
     }
 
     public void start() throws InterruptedException {
-        ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
-        cachedThreadPool.submit(worker);
-        jobSuccess();
-        worker.join(0);
+        Executors.newCachedThreadPool().submit(worker);
+        worker.join(MILLIS);
+    }
+
+    public void stop() {
         worker.end(true);
     }
 
-    public void jobSuccess() {
-        worker.getWorkerEventEmitter().addListener(new WorkerListener() {
-            public void onEvent(WorkerEvent event, Worker worker, String queue, Job job,
-                                Object runner, Object result, Throwable t) {
-                System.out.println("---------触发事件-------" + Thread.currentThread().getName() + "|" + result + event.name() + "|" + worker.getName() + "|" + queue + "|" + job.getClassName());
-                if (runner instanceof WorkerMan) {
-                    WorkerMan runner1 = (WorkerMan) runner;
-                    System.out.println("---------work-------" + runner1.getNum());
-                }
-            }
-        }, WorkerEvent.JOB_SUCCESS);
+    private void bindingEvent(WorkerListener workerListener) {
+        worker.getWorkerEventEmitter().addListener(workerListener, WorkerEvent.values());
     }
-
 }

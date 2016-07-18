@@ -6,14 +6,8 @@ public class WorkerMan extends Thread {
 
     private int num = 0;
 
-    public int getNum() {
-        return num;
-    }
-
     public WorkerMan(int num, String name) {
         super(name);
-        System.out.println(num);
-        System.out.println(name);
         this.num = num;
     }
 
