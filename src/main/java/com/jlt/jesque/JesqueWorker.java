@@ -43,13 +43,13 @@ public class JesqueWorker {
      * 新建worker
      *
      * @param workerClass worker类型
-     * @param wokerNumber 新建worker的数量,多线程处理
+     * @param workerNumber 新建worker的数量,多线程处理
      * @param queueGos    队列名,可支持同时处理多个队列
      * @return Worker
      */
-    private Worker newWorker(Class<?> workerClass, int wokerNumber, Queues.Queue[] queueGos) {
+    private Worker newWorker(Class<?> workerClass, int workerNumber, Queues.Queue[] queueGos) {
         WorkerImplFactory workerImplFactory = new WorkerImplFactory(config, getQueues(queueGos), newMapBasedJobFactory(workerClass));
-        return new WorkerPool(workerImplFactory, wokerNumber);
+        return new WorkerPool(workerImplFactory, workerNumber);
     }
 
     /**
