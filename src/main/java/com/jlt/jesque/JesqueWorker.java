@@ -21,6 +21,10 @@ public class JesqueWorker {
         config = new ConfigBuilder().build();
     }
 
+    /**
+     * @param worker
+     * @return
+     */
     private MapBasedJobFactory newMapBasedJobFactory(Class<?> worker) {
         return new MapBasedJobFactory(map(entry(worker.getName(), worker)));
     }
@@ -29,7 +33,7 @@ public class JesqueWorker {
      * 根据队列数组,获得队列名列表
      *
      * @param queues
-     * @return
+     * @return 队列名List
      */
     private List<String> getQueues(Queues.Queue... queues) {
         List<String> list = Lists.newArrayList();
@@ -40,28 +44,16 @@ public class JesqueWorker {
     }
 
     /**
-     * 新建worker
-     *
-     * @param workerClass worker类型
-     * @param workerNumber 新建worker的数量,多线程处理
-     * @param queueGos    队列名,可支持同时处理多个队列
-     * @return Worker
-     */
-    private Worker newWorker(Class<?> workerClass, int workerNumber, Queues.Queue[] queueGos) {
-        WorkerImplFactory workerImplFactory = new WorkerImplFactory(config, getQueues(queueGos), newMapBasedJobFactory(workerClass));
-        return new WorkerPool(workerImplFactory, workerNumber);
-    }
-
-    /**
      * 创建一个立即执行工作者worker
      *
      * @param workerClass  worker类型
      * @param workerNumber 新建worker的数量,多线程处理
      * @param queueGos     队列名,可支持同时处理多个队列
-     * @return Worker
+     * @return 新建一个多个线程的Worker
      */
     public Worker createWork(Class<?> workerClass, int workerNumber, Queues.Queue... queueGos) {
-        return newWorker(workerClass, workerNumber, queueGos);
+        WorkerImplFactory workerImplFactory = new WorkerImplFactory(config, getQueues(queueGos), newMapBasedJobFactory(workerClass));
+        return new WorkerPool(workerImplFactory, workerNumber);
     }
 
     /**
@@ -73,7 +65,7 @@ public class JesqueWorker {
      * @return worker
      */
     public Worker createRecurringWork(Class<?> workerClass, int workerNumber, Queues.QUEUE_RECURRING... queueRecurrings) {
-        return newWorker(workerClass, workerNumber, queueRecurrings);
+        return createWork(workerClass, workerNumber, queueRecurrings);
     }
 
     /**
@@ -85,6 +77,6 @@ public class JesqueWorker {
      * @return worker
      */
     public Worker createDelayedWork(Class<?> workerClass, int workerNumber, Queues.QUEUE_DELAY... queueDelays) {
-        return newWorker(workerClass, workerNumber, queueDelays);
+        return createWork(workerClass, workerNumber, queueDelays);
     }
 }
