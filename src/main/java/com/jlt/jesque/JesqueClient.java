@@ -13,8 +13,12 @@ public class JesqueClient {
     private final Client jesqueClientPool;
     private static final int MS_UNIT = 1000;
 
+    private String host = "127.0.0.1";
+    private int port = 6379;
+    private String password = "password";
+
     public JesqueClient() {
-        config = new ConfigBuilder().build();
+        config = new ConfigBuilder().withHost(host).withPort(port).withPassword(password).build();
         jesqueClientPool = new ClientPoolImpl(config, PoolUtils.createJedisPool(config));
     }
 
