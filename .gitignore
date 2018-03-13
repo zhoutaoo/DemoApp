@@ -3,3 +3,4 @@ DemoApp.ipr
 DemoApp.iws
 target/
 .DS_Store
+.idea/
