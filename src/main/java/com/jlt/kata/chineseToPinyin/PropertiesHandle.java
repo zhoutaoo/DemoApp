@@ -1,23 +1,23 @@
 package com.jlt.kata.chineseToPinyin;
 
-import java.io.*;
-import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
 public class PropertiesHandle {
     private static Logger logger = Logger.getLogger(ChineseToPinyin.class.getName());
-    private Map<String, String> properties = new HashMap<String, String>();
+    private Map<String, String> properties = new HashMap();
 
     public PropertiesHandle(String filename) {
-        BufferedReader reader = java.io.FileReader.getReader(filename);
+        BufferedReader reader = com.jlt.kata.chineseToPinyin.FileReader.getReader(filename);
         String line = readLine(reader);
         while (line != null) {
             line = readLine(reader);
             addMap(line);
         }
-        FileReader.closeRead(reader);
+        com.jlt.kata.chineseToPinyin.FileReader.closeRead(reader);
     }
 
     private String readLine(BufferedReader reader) {

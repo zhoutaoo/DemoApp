@@ -1,7 +1,9 @@
 package com.kata.parkingLot;
 
-import junit.framework.Assert;
-
+import com.jlt.kata.parkingLot.CapacityFullException;
+import com.jlt.kata.parkingLot.Car;
+import com.jlt.kata.parkingLot.ParkingLot;
+import com.jlt.kata.parkingLot.Receipt;
 import org.junit.Test;
 
 import static junit.framework.Assert.*;

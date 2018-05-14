@@ -1,12 +1,18 @@
 package com.kata.parkingLot;
 
+import com.jlt.kata.parkingLot.Car;
+import com.jlt.kata.parkingLot.ParkingBuddy;
+import com.jlt.kata.parkingLot.ParkingManager;
+import com.jlt.kata.parkingLot.Receipt;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class ParkingManagerTest {

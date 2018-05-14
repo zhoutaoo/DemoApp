@@ -1,5 +1,6 @@
 package com.kata.guessNumeric;
 
+import com.jlt.kata.guessNumeric.AnswerGenerate;
 import org.junit.Test;
 
 import java.lang.reflect.Method;

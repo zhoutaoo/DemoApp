@@ -1,8 +1,10 @@
 package com.kata.parkingLot.plots;
 
-import com.game.parkingLot.Car;
-import com.game.parkingLot.ParkingLot;
-import com.game.parkingLot.UnavailableParkingLot;
+import com.jlt.kata.parkingLot.Car;
+import com.jlt.kata.parkingLot.ParkingLot;
+import com.jlt.kata.parkingLot.UnavailableParkingLot;
+import com.jlt.kata.parkingLot.plots.ParkingPlot;
+import com.jlt.kata.parkingLot.plots.SmartPlot;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

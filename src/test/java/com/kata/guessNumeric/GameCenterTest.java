@@ -1,5 +1,6 @@
 package com.kata.guessNumeric;
 
+import com.jlt.kata.guessNumeric.GameCenter;
 import org.junit.Test;
 
 /**

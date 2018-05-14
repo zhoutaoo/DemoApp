@@ -1,7 +1,8 @@
 package com.kata.guessNumeric;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
+import com.jlt.kata.guessNumeric.Result;
 
 public class ResultTest {
     @Test

@@ -1,6 +1,6 @@
 package com.jlt.kata.parkingLot;
 
-import com.game.parkingLot.plots.ParkingPlot;
+import com.jlt.kata.parkingLot.plots.ParkingPlot;
 
 import java.util.Arrays;
 import java.util.Calendar;

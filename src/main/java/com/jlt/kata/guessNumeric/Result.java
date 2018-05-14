@@ -7,7 +7,7 @@ package com.jlt.kata.guessNumeric;
  * Time: 下午4:55
  * To change this template use File | Settings | File Templates.
  */
-class Result {
+public class Result {
     public static final String SUCCESS_CODE = "4A0B";
     private String resultCode;
 

@@ -1,8 +1,9 @@
 package com.kata.parkingLot.plots;
 
-import com.game.parkingLot.ParkingLot;
-import com.game.parkingLot.UnavailableParkingLot;
-import org.junit.Before;
+import com.jlt.kata.parkingLot.ParkingLot;
+import com.jlt.kata.parkingLot.UnavailableParkingLot;
+import com.jlt.kata.parkingLot.plots.GeneralPlot;
+import com.jlt.kata.parkingLot.plots.ParkingPlot;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;

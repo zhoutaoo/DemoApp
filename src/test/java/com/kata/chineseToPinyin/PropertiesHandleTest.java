@@ -1,5 +1,6 @@
 package com.kata.chineseToPinyin;
 
+import com.jlt.kata.chineseToPinyin.PropertiesHandle;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

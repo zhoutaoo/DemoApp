@@ -1,7 +1,7 @@
 package com.jlt.kata.parkingLot.plots;
 
-import com.game.parkingLot.ParkingLot;
-import com.game.parkingLot.UnavailableParkingLot;
+import com.jlt.kata.parkingLot.ParkingLot;
+import com.jlt.kata.parkingLot.UnavailableParkingLot;
 
 import java.util.Arrays;
 import java.util.List;

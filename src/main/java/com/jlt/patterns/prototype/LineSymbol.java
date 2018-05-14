@@ -1,6 +1,6 @@
 package com.jlt.patterns.prototype;
 
-import com.patterns.prototype.mypackage.Graphic;
+import com.jlt.patterns.prototype.mypackage.Graphic;
 
 /*
  *  A concrete prototype to draw a line

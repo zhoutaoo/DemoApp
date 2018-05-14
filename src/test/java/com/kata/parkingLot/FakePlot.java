@@ -1,6 +1,7 @@
 package com.kata.parkingLot;
 
-import com.game.parkingLot.plots.ParkingPlot;
+import com.jlt.kata.parkingLot.ParkingLot;
+import com.jlt.kata.parkingLot.plots.ParkingPlot;
 
 public class FakePlot implements ParkingPlot {
     private boolean isUse = false;

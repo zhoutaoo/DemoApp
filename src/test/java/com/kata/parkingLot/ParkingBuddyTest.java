@@ -1,9 +1,12 @@
 package com.kata.parkingLot;
 
+import com.jlt.kata.parkingLot.Car;
+import com.jlt.kata.parkingLot.ParkingBuddy;
+import com.jlt.kata.parkingLot.Receipt;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 
 public class ParkingBuddyTest {
 

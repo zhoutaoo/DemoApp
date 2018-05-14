@@ -1,12 +1,12 @@
 package com.jlt.patterns.prototype;/*
  *  As  a Test Client to test our pattern  
  */
-import com.patterns.prototype.mypackage.Graphic;
 
-import java.util.*;
-import java.lang.*;
+import com.jlt.patterns.prototype.mypackage.Graphic;
 
-public class GraphicTool  {
+import java.util.Hashtable;
+
+public class GraphicTool {
     public GraphicTool() {
     }
 
@@ -16,7 +16,7 @@ public class GraphicTool  {
         Hashtable mySymbols = myLoader.getSymbols();
 
         //-----  Draw a Line  -------------------------------
-        Graphic myLine = (Graphic)((Graphic)mySymbols.get("Line")).clone();
+        Graphic myLine = (Graphic) ((Graphic) mySymbols.get("Line")).clone();
         myLine.DoSomething();
     }
 }

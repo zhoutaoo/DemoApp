@@ -1,6 +1,6 @@
 package com.jlt.kata.parkingLot.plots;
 
-import com.game.parkingLot.ParkingLot;
+import com.jlt.kata.parkingLot.ParkingLot;
 
 public interface ParkingPlot {
 
